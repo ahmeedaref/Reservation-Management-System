@@ -1,6 +1,6 @@
 import { Injectable, ConflictException, UnauthorizedException, BadRequestException } from '@nestjs/common';
-import { UserRepo } from '../users/schemas/UserRepo';
-import { RegisterDto } from './dto/register.dto/register.dto';
+import { UserRepo } from '../users/UserRepo';
+import { CreateUserDto } from '../users/DTOs/createUser.dto'
 import { Role } from '../common/Enums/role.enum';
 import * as bycrpt from 'bcrypt'
 import { LoginDto } from './dto/login.dto/login.dto';
@@ -14,7 +14,7 @@ export class AuthService {
         private readonly configService: ConfigService,
     ) { }
 
-    async register(data: RegisterDto) {
+    async register(data: CreateUserDto) {
         const UserExist = await this.UserRepo.findByEmail(data.email);
         if (UserExist) {
             throw new ConflictException('Email is already exist')
