@@ -23,7 +23,7 @@ export class Resource {
     })
     capacity: number;
     @Prop({ default: true })
-    isActive: boolean
+    isAvaliable: boolean
     @Prop({ type: [OperatingHourSchema], required: true })
     operatingHours: OperatingHour[];
 }

@@ -27,5 +27,4 @@ export class OperatingHour {
     isClosed: boolean;
 }
 
-export const OperatingHourSchema =
-    SchemaFactory.createForClass(OperatingHour);
+export const OperatingHourSchema = SchemaFactory.createForClass(OperatingHour);

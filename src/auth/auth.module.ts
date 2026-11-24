@@ -6,6 +6,8 @@ import { ConfigService, ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../users/schemas/user.schema';
 import { StringValue } from 'ms';
+import { UsersModule } from '../users/users.module';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -21,6 +23,8 @@ import { StringValue } from 'ms';
         },
       }),
     }),
+    UsersModule,
+
   ],
   providers: [AuthService],
   controllers: [AuthController],

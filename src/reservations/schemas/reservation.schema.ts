@@ -47,8 +47,6 @@ export class Reservation {
         default: ReservationStatus.CONFIRMED,
     })
     status: ReservationStatus;
-    @Prop({ trim: true })
-    cancellationReason?: string;
 }
 
 export const ReservationSchema = SchemaFactory.createForClass(Reservation);

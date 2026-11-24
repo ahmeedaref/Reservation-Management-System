@@ -6,15 +6,13 @@ export type UserDocument = User & Document;
 export class User {
     @Prop({ required: true, trim: true })
     name: string
-    @Prop({ required: true, unique: true, lowercase: true, trim: true })
+    @Prop({ required: true, unique: true })
     email: string
-    @Prop({ required: true, select: false })
+    @Prop({ required: true, })
     password: string
     @Prop({ enum: Role, default: Role.CUSTOMER, required: true })
     role: Role
     @Prop({ default: true })
     isActive: boolean
-    @Prop({ select: false, required: false })
-    refreshTokenHash?: string
 }
 export const UserSchema = SchemaFactory.createForClass(User);
