@@ -19,7 +19,13 @@ export class Reservation {
         required: true,
     })
     resource: Types.ObjectId;
-    @Prop({ required: true })
+    @Prop({
+        required: true,
+        validate: {
+            validator: (value: Date) => value > new Date(),
+            message: 'Start time must be in the future',
+        },
+    })
     startTime: Date;
 
     @Prop({

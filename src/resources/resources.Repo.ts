@@ -10,7 +10,7 @@ export class ResourceRepo {
     constructor(@InjectModel(Resource.name)
     private readonly resourceModel: Model<ResourceDocument>) { }
 
-    async create(data: CreateResourceDto): Promise<ResourceDocument> {
+    async create(data: Partial<Resource>): Promise<ResourceDocument> {
         return this.resourceModel.create(data);
     }
     async findByName(name: string): Promise<ResourceDocument | null> {
@@ -29,7 +29,7 @@ export class ResourceRepo {
     }
 
     async filterResources(
-        data: FilterResourceDto
+        data: Partial<Resource>
     ): Promise<ResourceDocument[]> {
         const filter: any = {};
 
@@ -37,8 +37,8 @@ export class ResourceRepo {
             filter.type = data.type;
         }
 
-        if (data.minCapacity !== undefined) {
-            filter.capacity = { $gte: data.minCapacity };
+        if (data.capacity !== undefined) {
+            filter.capacity = { $gte: data.capacity };
         }
 
         return this.resourceModel.find(filter);
@@ -47,7 +47,7 @@ export class ResourceRepo {
     async deleteResource(id: string): Promise<ResourceDocument | null> {
         return this.resourceModel.findByIdAndDelete(id);
     }
-    async updateResource(id: string, data: UpdateResourceDto,): Promise<ResourceDocument | null> {
+    async updateResource(id: string, data: Partial<Resource>): Promise<ResourceDocument | null> {
         return this.resourceModel.findByIdAndUpdate(id, { $set: data }, {
             returnDocument: 'after',
             runValidators: true,

@@ -8,7 +8,7 @@ import { ResourcesController } from './resources.controller';
     imports: [
         MongooseModule.forFeature([{ name: Resource.name, schema: ResourceSchema }])
     ],
-    exports: [ResourceRepo],
+    exports: [ResourceRepo, ResourcesService],
     providers: [ResourceRepo, ResourcesService],
     controllers: [ResourcesController]
 })

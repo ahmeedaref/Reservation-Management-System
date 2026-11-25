@@ -23,7 +23,7 @@ export class UserRepo {
         return this.userModel.find();
     }
 
-    async updateUser(id: string, data: updateUserDto): Promise<UserDocument | null> {
+    async updateUser(id: string, data: Partial<User>): Promise<UserDocument | null> {
         return this.userModel.findByIdAndUpdate(id, { $set: data },
             { new: true, runValidators: true })
     }
