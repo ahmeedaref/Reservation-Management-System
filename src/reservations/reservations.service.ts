@@ -122,7 +122,6 @@ export class ReservationService {
         role: Role,
         data: UpdateReservationDto,
     ) {
-
         const reservation = await this.reservationRepo.findById(reservationId);
 
         if (!reservation) {
@@ -141,17 +140,29 @@ export class ReservationService {
             );
         }
 
-        const resourceId = data.resource ?? reservation.resource.toString();
-        const startTime = data.startTime
-            ? new Date(data.startTime)
-            : reservation.startTime;
-        const endTime = data.endTime
-            ? new Date(data.endTime)
-            : reservation.endTime;
-        const attendees = data.attendees ?? reservation.attendees;
+        let resourceId = reservation.resource.toString();
+        let startTime = reservation.startTime;
+        let endTime = reservation.endTime;
+        let attendees = reservation.attendees;
+
+        if (data.resource) {
+            resourceId = data.resource;
+        }
+
+        if (data.startTime) {
+            startTime = new Date(data.startTime);
+        }
+
+        if (data.endTime) {
+            endTime = new Date(data.endTime);
+        }
+
+        if (data.attendees !== undefined) {
+            attendees = data.attendees;
+        }
 
         if (!Types.ObjectId.isValid(resourceId)) {
-            throw new BadRequestException('Invalid resource ID');
+            throw new BadRequestException('invalid resource Id');
         }
 
         if (startTime <= new Date()) {
@@ -180,7 +191,6 @@ export class ReservationService {
             endTime,
             attendees,
         });
-
     }
 
     async cancelReservation(
@@ -212,12 +222,18 @@ export class ReservationService {
 
     }
     async filterReeservations(filters: FilterReservationDto) {
+        let startDate: Date | undefined
+        let endDate: Date | undefined;
 
-        if (
-            filters.startDate &&
-            filters.endDate &&
-            new Date(filters.startDate) > new Date(filters.endDate)
-        ) {
+        if (filters.startDate) {
+            startDate = new Date(filters.startDate);
+        }
+
+        if (filters.endDate) {
+            endDate = new Date(filters.endDate);
+        }
+
+        if (startDate && endDate && startDate > endDate) {
             throw new BadRequestException(
                 'Start date must be before end date',
             );
@@ -225,14 +241,9 @@ export class ReservationService {
 
         return this.reservationRepo.filter({
             status: filters.status,
-            startDate: filters.startDate
-                ? new Date(filters.startDate)
-                : undefined,
-            endDate: filters.endDate
-                ? new Date(filters.endDate)
-                : undefined,
+            startDate: startDate,
+            endDate: endDate,
         });
-
     }
 
 
